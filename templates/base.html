@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        div {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        marquee {
+            margin-top: 100px;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <marquee>
+            <h1>Welcome to TODO List Application</h1>
+        </marquee>
+    </div>
+
+    <div>
+        <form action="search" method="get" role="search">
+            {% csrf_token %}
+            <label for="search">Search</label>
+            <input type="search" name="q" id="search" placeholder="Search here...">
+            <button type="submit">Search</button>
+        </form>
+        <br>
+    </div>
+
+    <div>
+        <button type="submit">
+            <a href="blog">Add Task</a>
+        </button>
+    </div>
+
+    {% block content %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in post %}
+                    <tr>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.description }}</td>
+                        <td>{{ i.date }}</td>
+                        <td>
+                            <button type="submit">
+                                <a href="update/{{ i.id }}">Update</a>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="submit">
+                                <a href="delete/{{ i.id }}">Delete</a>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock content %}
+
+</body>
+</html>
